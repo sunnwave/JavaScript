@@ -32,12 +32,18 @@ const counterMaker = function () {
         remainingSec: Math.floor(remaining) % 60
     }
 
-    const documentArr = ['days', 'hours', 'min', 'sec'];
     const timeKeys = Object.keys(remainingObj);
 
+    const documentObj = {
+        days: document.getElementById('days'),
+        hours: document.getElementById('hours'),
+        min: document.getElementById('min'),
+        sec: document.getElementById('sec')
+    };
+
     let i = 0;
-    for (let tag of documentArr) {
-        document.getElementById(tag).textContent = remainingObj[timeKeys[i]];
+    for (let key in documentObj) {
+        documentObj[key].textContent = remainingObj[timeKeys[i]];
         i++;
     }
 
