@@ -25,16 +25,6 @@ const counterMaker = function () {
         messageContainer.innerHTML = "<h3>유효한 시간대가 아닙니다.</h3>"
     }
 
-    // const remainingDate = Math.floor(remaining / 3600 / 24);
-    // const remainingHours = Math.floor(remaining / 3600) % 24;
-    // const remainingMin = Math.floor(remaining / 60) % 60;
-    // const remainingSec = Math.floor(remaining) % 60;
-
-    // const days = document.querySelector('#days');
-    // const hours = document.querySelector('#hours');
-    // const min = document.querySelector('#min');
-    // const sec = document.querySelector('#sec');
-
     const remainingObj = {
         remainingDate: Math.floor(remaining / 3600 / 24),
         remainingHours: Math.floor(remaining / 3600) % 24,
@@ -49,9 +39,12 @@ const counterMaker = function () {
         sec: document.getElementById('sec')
     };
 
-    documentObj['days'].textContent = remainingObj['remainingDate'];
-    documentObj['hours'].textContent = remainingObj["remainingHours"];
-    documentObj['min'].textContent = remainingObj["remainingMin"];
-    documentObj['sec'].textContent = remainingObj["remainingSec"];
+    const timeKeys = Object.keys(remainingObj);
+    const docKeys = Object.keys(documentObj);
+    // console.log(timeKeys, docKeys);
+
+    for (i = 0; i < timeKeys.length; i = i + 1) {
+        documentObj[docKeys[i]].textContent = remainingObj[timeKeys[i]];
+    };
 
 };
