@@ -1,7 +1,7 @@
 const messageContainer = document.querySelector('#d-day-message');
 const container = document.querySelector("#d-day-container");
 
-// container.style.display = 'none';
+container.style.display = 'none';
 messageContainer.innerHTML = "<h3>D-Day를 입력해 주세요</h3>";
 
 const dateFormMaker = function () {
@@ -20,9 +20,18 @@ const counterMaker = function () {
     const remaining = (targetDate - nowDate) / 1000;
 
     if (remaining <= 0) {
+        //타이머가 종료되었을 때
+        container.style.display = 'none';
         messageContainer.innerHTML = "<h3>타이머가 종료되었습니다.</h3>"
+        messageContainer.style.display = 'flex';
+        return;
+
     } else if (isNaN(remaining)) {
+        //잘못된 날짜가 입력되었을 때
+        container.style.display = 'none';
         messageContainer.innerHTML = "<h3>유효한 시간대가 아닙니다.</h3>"
+        messageContainer.style.display = 'flex';
+        return;
     }
 
     const remainingObj = {
@@ -32,19 +41,18 @@ const counterMaker = function () {
         remainingSec: Math.floor(remaining) % 60
     }
 
+    const documentArr = ['days', 'hours', 'min', 'sec'];
     const timeKeys = Object.keys(remainingObj);
 
-    const documentObj = {
-        days: document.getElementById('days'),
-        hours: document.getElementById('hours'),
-        min: document.getElementById('min'),
-        sec: document.getElementById('sec')
-    };
-
     let i = 0;
-    for (let key in documentObj) {
-        documentObj[key].textContent = remainingObj[timeKeys[i]];
+    for (let tag of documentArr) {
+        document.getElementById(tag).textContent = remainingObj[timeKeys[i]];
         i++;
     }
+};
 
+const starter = function () {
+    container.style.display = 'flex'
+    messageContainer.style.display = 'none';
+    counterMaker();
 };
