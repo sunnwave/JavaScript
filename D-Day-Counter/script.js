@@ -32,19 +32,13 @@ const counterMaker = function () {
         remainingSec: Math.floor(remaining) % 60
     }
 
-    const documentObj = {
-        days: document.getElementById('days'),
-        hours: document.getElementById('hours'),
-        min: document.getElementById('min'),
-        sec: document.getElementById('sec')
-    };
-
+    const documentArr = ['days', 'hours', 'min', 'sec'];
     const timeKeys = Object.keys(remainingObj);
-    const docKeys = Object.keys(documentObj);
-    // console.log(timeKeys, docKeys);
 
-    for (i = 0; i < timeKeys.length; i = i + 1) {
-        documentObj[docKeys[i]].textContent = remainingObj[timeKeys[i]];
-    };
+    let i = 0;
+    for (let tag of documentArr) {
+        document.getElementById(tag).textContent = remainingObj[timeKeys[i]];
+        i++;
+    }
 
 };
