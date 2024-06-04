@@ -14,10 +14,9 @@ const dateFormMaker = function () {
     return dateFormat;
 };
 
-const counterMaker = function () {
-    const targetDateInput = dateFormMaker();
+const counterMaker = function (data) {
     const nowDate = new Date();
-    const targetDate = new Date(targetDateInput).setHours(0, 0, 0, 0);
+    const targetDate = new Date(data).setHours(0, 0, 0, 0);
     const remaining = (targetDate - nowDate) / 1000;
 
     if (remaining <= 0) {
@@ -47,35 +46,49 @@ const counterMaker = function () {
     const documentArr = ['days', 'hours', 'min', 'sec'];
     const timeKeys = Object.keys(remainingObj);
 
+    const format = function (time) {
+        if (time < 10) {
+            return '0' + time;
+        }
+        else {
+            return time;
+        }
+    };
+
     let i = 0;
     for (let tag of documentArr) {
-        document.getElementById(tag).textContent = remainingObj[timeKeys[i]];
+        const remainingTime = format(remainingObj[timeKeys[i]]);
+        document.getElementById(tag).textContent = remainingTime;
         i++;
     }
 };
 
 const starter = function () {
-
+    const targetDateInput = dateFormMaker();
     container.style.display = 'flex'
     messageContainer.style.display = 'none';
-
+    setClearInterval();
     //100번까지만 반복 가능
     // for (let i = 0; i < 100; i++) {
     //     setTimeout(counterMaker, 1000 * i);
     // }
 
     //setInterval()이 1초 뒤에 실행되기 때문에 counterMaker() 한 번 먼저 실행
-    counterMaker()
+    counterMaker(targetDateInput);
     //1초마다 counterMaker()함수 실행. 1초 뒤에 실행
-    const intervalId = setInterval(counterMaker, 1000);// return값은 반복되는 코드 interval의 id값
+    const intervalId = setInterval(() => counterMaker(targetDateInput), 1000);// return값은 반복되는 코드 interval의 id값
     intervalIdArr.push(intervalId);
 };
 
 const setClearInterval = function () {
-    container.style.display = 'none';
-    messageContainer.innerHTML = "<h3>D-Day를 입력해 주세요</h3>";
-    messageContainer.style.display = 'flex';
     for (let i = 0; i < intervalIdArr.length; i++) {
         clearInterval(intervalIdArr[i]);
     }
+};
+
+const resetTimer = function () {
+    container.style.display = 'none';
+    messageContainer.innerHTML = "<h3>D-Day를 입력해 주세요</h3>";
+    messageContainer.style.display = 'flex';
+    setClearInterval();
 };
