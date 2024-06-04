@@ -1,9 +1,8 @@
 const messageContainer = document.querySelector('#d-day-message');
 const container = document.querySelector("#d-day-container");
+const savedDate = localStorage.getItem('saved-date');
 const intervalIdArr = [];
 
-container.style.display = 'none';
-messageContainer.innerHTML = "<h3>D-Day를 입력해 주세요</h3>";
 
 const dateFormMaker = function () {
     const inputYear = document.querySelector('#target-year-input').value;
@@ -15,6 +14,9 @@ const dateFormMaker = function () {
 };
 
 const counterMaker = function (data) {
+    if (data !== savedDate) {
+        localStorage.setItem('saved-date', data);
+    }
     const nowDate = new Date();
     const targetDate = new Date(data).setHours(0, 0, 0, 0);
     const remaining = (targetDate - nowDate) / 1000;
@@ -63,16 +65,13 @@ const counterMaker = function (data) {
     }
 };
 
-const starter = function () {
-    const targetDateInput = dateFormMaker();
+const starter = function (targetDateInput) {
+    if (!targetDateInput) {
+        targetDateInput = dateFormMaker();
+    }
     container.style.display = 'flex'
     messageContainer.style.display = 'none';
     setClearInterval();
-    //100번까지만 반복 가능
-    // for (let i = 0; i < 100; i++) {
-    //     setTimeout(counterMaker, 1000 * i);
-    // }
-
     //setInterval()이 1초 뒤에 실행되기 때문에 counterMaker() 한 번 먼저 실행
     counterMaker(targetDateInput);
     //1초마다 counterMaker()함수 실행. 1초 뒤에 실행
@@ -81,6 +80,7 @@ const starter = function () {
 };
 
 const setClearInterval = function () {
+    localStorage.removeItem('saved-date');
     for (let i = 0; i < intervalIdArr.length; i++) {
         clearInterval(intervalIdArr[i]);
     }
@@ -92,3 +92,10 @@ const resetTimer = function () {
     messageContainer.style.display = 'flex';
     setClearInterval();
 };
+
+if (savedDate) {
+    starter(savedDate);
+} else {
+    container.style.display = 'none';
+    messageContainer.innerHTML = "<h3>D-Day를 입력해 주세요</h3>";
+}
