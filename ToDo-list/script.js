@@ -3,12 +3,6 @@ const todoList = document.querySelector("#todo-list");
 
 const savedTodoList = JSON.parse(localStorage.getItem('saved-items'));
 
-if (savedTodoList) {
-    for (i = 0; i < savedTodoList.length; i++) {
-        createTodo(savedTodoList[i]);
-    }
-}
-
 const createTodo = function (storageData) {
 
     let todoContents = todoInput.value;
@@ -24,12 +18,16 @@ const createTodo = function (storageData) {
         newLi.classList.toggle('complete');
         saveItemsFunc();
     });
-
+    
     newLi.addEventListener('dblclick', () => {
         newLi.remove();
         saveItemsFunc();
     });
-
+    
+    if(storageData?.complete){
+        newLi.classList.add('complete')
+    }
+    
     newSpan.textContent = todoContents;
     newLi.appendChild(newBtn);
     newLi.appendChild(newSpan);
@@ -49,6 +47,7 @@ const deleteAll = function () {
     for (let i = 0; i < liList.length; i++) {
         liList[i].remove();
     }
+    saveItemsFunc();
 }
 
 const saveItemsFunc = function () {
@@ -61,6 +60,19 @@ const saveItemsFunc = function () {
         saveItems.push(todoObj);
     }
 
-    // console.log(typeof (JSON.stringify(saveItems)));
-    localStorage.setItem('saved-items', JSON.stringify(saveItems));
-};
+    saveItems.length===0
+        ?localStorage.removeItem('saved-items')
+        :localStorage.setItem('saved-items', JSON.stringify(saveItems))
+
+    // if(saveItems.length===0){
+    //     localStorage.removeItem('saved-items')
+    // }else{
+    //     localStorage.setItem('saved-items', JSON.stringify(saveItems));
+    // }
+}
+
+if (savedTodoList) {
+    for (i = 0; i < savedTodoList.length; i++) {
+        createTodo(savedTodoList[i]);
+    }
+}
