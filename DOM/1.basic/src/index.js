@@ -1,8 +1,8 @@
-const lowerFolder = document.querySelectorAll('.lower-folder');
+const lowerFolder = document.querySelectorAll(".lower-folder");
 if (lowerFolder) {
-    lowerFolder.forEach((n) => {
-        n.style.display = 'none';
-    });
+  lowerFolder.forEach((n) => {
+    n.style.display = "none";
+  });
 }
 
 // ! 위의 코드는 참고만 하시고 수정하지 마세요 ! //
@@ -25,16 +25,21 @@ if (lowerFolder) {
 // @ "isOpen" class는 'toggle'이라는 class 명을 가진 태그에 추가, 삭제 되어야 합니다.
 // @ display 속성은 'lower-folder'라는 class 명을 가진 태그에서 변경되어야 합니다.
 
-const folderList = document.querySelectorAll('.folder');
+const folderList = document.querySelectorAll(".folder");
 const completeFolderTree = function (folderList) {
-    for (let i = 0; i < folderList.length; i++) {
-        folderList[i].addEventListener('click', (event) => {
-            // 여기에서 작업하세요.
-            console.log(event.target);
-            console.log(event.target.parentNode);
-            console.log(event.target.parentNode.querySelector('.lower-folder'));
-        });
-    }
+  for (let i = 0; i < folderList.length; i++) {
+    folderList[i].addEventListener("click", (event) => {
+      // 여기에서 작업하세요.
+
+      let parentTarget = event.target.parentNode;
+      let lowerTarget = parentTarget.querySelector(".lower-folder");
+
+      parentTarget.classList.toggle("isOpen");
+      lowerTarget.style.display = parentTarget.classList.contains("isOpen")
+        ? "block"
+        : "none";
+    });
+  }
 };
 completeFolderTree(folderList);
 
