@@ -58,25 +58,37 @@ const createTree = function (folder, node) {
   // 여기에서 작업하세요.
   for (let i = 0; i < folder.length; i++) {
     const newDetails = document.createElement("details");
-    node.appendChild(newDetails);
     const newSummary = document.createElement("summary");
     newSummary.textContent = folder[i].name;
+    node.appendChild(newDetails);
     newDetails.appendChild(newSummary);
 
-    createLower(folder[i], newDetails);
+    const lowerFolders = folder[i].folder;
+    const lowerFiles = folder[i].file;
+
+    if (lowerFolders) {
+      createTree(lowerFolders, newDetails);
+    }
+    if (lowerFiles) {
+      for (let i = 0; i < lowerFiles.length; i++) {
+        const newLi = document.createElement("li");
+        newLi.textContent = lowerFiles[i];
+        newDetails.appendChild(newLi);
+      }
+    }
   }
 };
 
-const createLower = function (contents, detail) {
-  if (contents.folder) {
-    createTree(contents.folder, detail);
-  }
-  for (let i = 0; i < contents.file.length; i++) {
-    const newLi = document.createElement("li");
-    newLi.textContent = contents.file[i];
-    detail.appendChild(newLi);
-  }
-};
+// const createLower = function (contents, detail) {
+//   if (contents.folder) {
+//     createTree(contents.folder, detail);
+//   }
+//   for (let i = 0; i < contents.file.length; i++) {
+//     const newLi = document.createElement("li");
+//     newLi.textContent = contents.file[i];
+//     detail.appendChild(newLi);
+//   }
+// };
 
 // ! 아래의 코드는 수정하지 마세요 ! //
 
