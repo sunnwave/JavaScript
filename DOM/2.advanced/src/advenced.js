@@ -1,34 +1,34 @@
 const folderTemplate = [
-    {
-        name: '데스크탑',
-        file: ['내 컴퓨터', '휴지통'],
+  {
+    name: "데스크탑",
+    file: ["내 컴퓨터", "휴지통"],
+    folder: [
+      {
+        name: "loop",
+        file: ["index.html", "render.js", "style.css"],
         folder: [
-            {
-                name: 'loop',
-                file: ['index.html', 'render.js', 'style.css'],
-                folder: [
-                    {
-                        name: 'src',
-                        file: ['stage1.js', 'stage2.js'],
-                    },
-                    {
-                        name: 'data',
-                        file: ['data.js'],
-                    },
-                ],
-            },
-            {
-                name: 'D-Day-counter',
-                file: ['index.html', 'script.js', 'style.css'],
-            },
+          {
+            name: "src",
+            file: ["stage1.js", "stage2.js"],
+          },
+          {
+            name: "data",
+            file: ["data.js"],
+          },
         ],
-    },
+      },
+      {
+        name: "D-Day-counter",
+        file: ["index.html", "script.js", "style.css"],
+      },
+    ],
+  },
 ];
 
 // ! 위의 코드는 Tree를 구성하기 위한 기반 데이터입니다. 참고는 하시되 수정하지 마세요 ! //
 
-const DOM = document.querySelector('body');
-const container = document.querySelector('.container');
+const DOM = document.querySelector("body");
+const container = document.querySelector(".container");
 
 /**
  * createTree 함수를 완성시켜 폴더 구조(Tree)를 출력하세요.
@@ -55,7 +55,27 @@ const container = document.querySelector('.container');
 // summary : https://developer.mozilla.org/ko/docs/Web/HTML/Element/summary
 
 const createTree = function (folder, node) {
-    // 여기에서 작업하세요.
+  // 여기에서 작업하세요.
+  for (let i = 0; i < folder.length; i++) {
+    const newDetails = document.createElement("details");
+    node.appendChild(newDetails);
+    const newSummary = document.createElement("summary");
+    newSummary.textContent = folder[i].name;
+    newDetails.appendChild(newSummary);
+
+    createLower(folder[i], newDetails);
+  }
+};
+
+const createLower = function (contents, detail) {
+  if (contents.folder) {
+    createTree(contents.folder, detail);
+  }
+  for (let i = 0; i < contents.file.length; i++) {
+    const newLi = document.createElement("li");
+    newLi.textContent = contents.file[i];
+    detail.appendChild(newLi);
+  }
 };
 
 // ! 아래의 코드는 수정하지 마세요 ! //
