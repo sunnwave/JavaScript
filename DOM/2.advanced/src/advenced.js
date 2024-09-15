@@ -79,17 +79,6 @@ const createTree = function (folder, node) {
   }
 };
 
-// const createLower = function (contents, detail) {
-//   if (contents.folder) {
-//     createTree(contents.folder, detail);
-//   }
-//   for (let i = 0; i < contents.file.length; i++) {
-//     const newLi = document.createElement("li");
-//     newLi.textContent = contents.file[i];
-//     detail.appendChild(newLi);
-//   }
-// };
-
 // ! 아래의 코드는 수정하지 마세요 ! //
 
 createTree(folderTemplate, container);
